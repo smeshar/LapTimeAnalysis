@@ -20,7 +20,7 @@ A lightweight PyQt application designed for simracers to analyze and visualize l
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/lap-time-analysis.git](https://github.com/yourusername/lap-time-analysis.git)
+   git clone https://github.com/smeshar/LapTimeAnalysis.git
    cd lap-time-analysis
    ```
 
@@ -58,7 +58,3 @@ Contributions are welcome. If you find a bug or have a feature request, please o
 ## License
 
 Distributed under the MIT License. See LICENSE for more information.
-
-## Documentation
-
-Detailed information about application logic, configuration, and data processing can be found in the [Project Wiki](https://github.com/smeshar/LapTimyAnalysis/wiki).
