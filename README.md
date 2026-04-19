@@ -24,6 +24,12 @@ A lightweight PyQt application designed for simracers to analyze and visualize l
    cd lap-time-analysis
    ```
 
+2. Install required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+
 ## Usage
 
 1. Run the application:
