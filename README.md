@@ -5,6 +5,10 @@
 
 A lightweight PyQt application designed for simracers to analyze and visualize lap time telemetry from `.consumption` files. The tool filters out invalid or excessively slow laps, tracks Personal Best (PB) evolution, and maps out overall pace trends.
 
+<p align="center">
+  <img src="assets/Autodromo Enzo e Dino Ferrari - Hyper.png" width="1000">
+</p>
+
 ## Features
 
 * Minimalistic UI without unnecessary clutter.
