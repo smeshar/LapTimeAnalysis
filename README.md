@@ -58,3 +58,7 @@ Contributions are welcome. If you find a bug or have a feature request, please o
 ## License
 
 Distributed under the MIT License. See LICENSE for more information.
+
+## Documentation
+
+Detailed information about application logic, configuration, and data processing can be found in the [Project Wiki](https://github.com/smeshar/LapTimyAnalysis/wiki).
