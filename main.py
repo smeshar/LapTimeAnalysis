@@ -202,7 +202,9 @@ class LapTimeApp(QWidget):
             plt.savefig(save_path)
 
             print(f"Plot saved to: {save_path}")
-            print(f"Session Best Lap: {seconds_to_minutes(pb_evolution[-1]:.3f)}s")
+            
+            best_lap = seconds_to_minutes(pb_evolution[-1])
+            print(f"Session Best Lap: {best_lap} s")
             print("Analysis complete.")
 
             plt.show()
