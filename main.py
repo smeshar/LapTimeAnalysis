@@ -4,9 +4,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.ticker as ticker
-from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QPushButton,
-                             QLineEdit, QTextEdit, QFileDialog)
+from PyQt6.QtWidgets import (
+    QApplication,
+    QWidget,
+    QVBoxLayout,
+    QPushButton,
+    QLineEdit,
+    QTextEdit,
+    QFileDialog,
+)
 from PyQt6.QtCore import pyqtSignal, QObject
+
 
 # Класс для перенаправления логов из консоли в окно приложения
 class Stream(QObject):
@@ -17,6 +25,13 @@ class Stream(QObject):
 
     def flush(self):
         pass
+
+
+def seconds_to_minutes(time):
+    minutes = int(time // 60)
+    seconds = time - minutes * 60
+    return f"{minutes}:{seconds:.2f}"
+
 
 class LapTimeApp(QWidget):
     def __init__(self):
@@ -65,7 +80,10 @@ class LapTimeApp(QWidget):
 
     def upload_file(self):
         file_name, _ = QFileDialog.getOpenFileName(
-            self, "Select Consumption File", "", "Consumption Files (*.consumption);;All Files (*)"
+            self,
+            "Select Consumption File",
+            "",
+            "Consumption Files (*.consumption);;All Files (*)",
         )
         if file_name:
             self.file_path = file_name
@@ -77,7 +95,7 @@ class LapTimeApp(QWidget):
             return
 
         try:
-            threshold_str = self.input_threshold.text().replace(',', '.')
+            threshold_str = self.input_threshold.text().replace(",", ".")
             threshold = float(threshold_str) if threshold_str else 96.0
         except ValueError:
             print("Error: Invalid threshold time format.")
@@ -94,8 +112,10 @@ class LapTimeApp(QWidget):
             df = pd.read_csv(self.file_path)
             df = df.iloc[::-1].reset_index(drop=True)
 
-            valid_fast_laps = df[(df["isValidLap"] == 1) & (df["lapTimeLast"] <= threshold)].copy()
-            
+            valid_fast_laps = df[
+                (df["isValidLap"] == 1) & (df["lapTimeLast"] <= threshold)
+            ].copy()
+
             if valid_fast_laps.empty:
                 print("Error: No valid laps found under the specified threshold.")
                 return
@@ -116,14 +136,45 @@ class LapTimeApp(QWidget):
             # Отрисовка
             plt.figure(figsize=(16, 9), dpi=100)
 
-            plt.plot(x, y, color="#1f77b4", alpha=0.3, linewidth=1, label="All Laps (Pace)", zorder=2)
+            plt.plot(
+                x,
+                y,
+                color="#1f77b4",
+                alpha=0.3,
+                linewidth=1,
+                label="All Laps (Pace)",
+                zorder=2,
+            )
             plt.scatter(x, y, color="#1f77b4", alpha=0.3, s=25, zorder=2)
 
-            plt.plot(x, pb_evolution, color="green", linewidth=1.5, linestyle="--",
-                     label="PB Evolution (Steps)", zorder=4, drawstyle="steps-post")
+            plt.plot(
+                x,
+                pb_evolution,
+                color="green",
+                linewidth=1.5,
+                linestyle="--",
+                label="PB Evolution (Steps)",
+                zorder=4,
+                drawstyle="steps-post",
+            )
 
-            plt.plot(x, p_all(x), color="red", lw=1.5, ls=":", alpha=0.6, label="Overall Pace Trend")
-            plt.plot(x, p_pb(x), color="#9400D3", linewidth=4, label="PB Improvement Trend", zorder=5)
+            plt.plot(
+                x,
+                p_all(x),
+                color="red",
+                lw=1.5,
+                ls=":",
+                alpha=0.6,
+                label="Overall Pace Trend",
+            )
+            plt.plot(
+                x,
+                p_pb(x),
+                color="#9400D3",
+                linewidth=4,
+                label="PB Improvement Trend",
+                zorder=5,
+            )
 
             ax = plt.gca()
             ax.xaxis.set_major_locator(ticker.MultipleLocator(2))
@@ -143,19 +194,22 @@ class LapTimeApp(QWidget):
             plt.tight_layout()
 
             # Сохранение файла
-            plots_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
+            plots_dir = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "plots"
+            )
             os.makedirs(plots_dir, exist_ok=True)
             save_path = os.path.join(plots_dir, f"{plot_title}.png")
             plt.savefig(save_path)
-            
+
             print(f"Plot saved to: {save_path}")
-            print(f"Session Best Lap: {pb_evolution[-1]:.3f}s")
+            print(f"Session Best Lap: {seconds_to_minutes(pb_evolution[-1]:.3f)}s")
             print("Analysis complete.")
 
             plt.show()
 
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
