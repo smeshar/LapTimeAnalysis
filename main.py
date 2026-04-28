@@ -12,8 +12,9 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QTextEdit,
     QFileDialog,
+    QLabel,
 )
-from PyQt6.QtCore import pyqtSignal, QObject
+from PyQt6.QtCore import pyqtSignal, QObject, Qt
 
 
 # Класс для перенаправления логов из консоли в окно приложения
@@ -54,9 +55,13 @@ class LapTimeApp(QWidget):
         self.btn_upload.clicked.connect(self.upload_file)
         layout.addWidget(self.btn_upload)
 
+        self.threshold_label = QLabel("Threshold time to not be shown (in seconds)")
+        self.threshold_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.threshold_label)
+
         # Поле для ввода threshold time
-        self.input_threshold = QLineEdit()
-        self.input_threshold.setPlaceholderText("96.0")
+        self.input_threshold = QLineEdit("")
+        self.input_threshold.setPlaceholderText("100.0")
         layout.addWidget(self.input_threshold)
 
         # Кнопка генерации
@@ -202,7 +207,7 @@ class LapTimeApp(QWidget):
             plt.savefig(save_path)
 
             print(f"Plot saved to: {save_path}")
-            
+
             best_lap = seconds_to_minutes(pb_evolution[-1])
             print(f"Session Best Lap: {best_lap} s")
             print("Analysis complete.")
