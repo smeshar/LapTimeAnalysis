@@ -55,7 +55,7 @@ class LapTimeApp(QWidget):
         self.btn_upload.clicked.connect(self.upload_file)
         layout.addWidget(self.btn_upload)
 
-        self.threshold_label = QLabel("Threshold time to not be shown (in seconds)")
+        self.threshold_label = QLabel("Maximum analyzed lap time (in seconds)")
         self.threshold_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.threshold_label)
 
